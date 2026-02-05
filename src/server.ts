@@ -1,23 +1,70 @@
-import Fastify from "fastify";
+import express, { Express, NextFunction, Request, Response } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { PrismaClient } from './generated';
+import { registerRouter } from './routes/register';
+import { loginRouter } from './routes/login';
+import { healthRouter } from './routes/health';
 
-const fastify = Fastify({
-    logger: true
-})
+// Load environment variables
+dotenv.config();
 
-fastify.get('/', async (request, reply) => {
-    return { hello: 'world' }
-})
+const app: Express = express();
+const PORT = parseInt(process.env.PORT || '5432', 10);
+const prisma = new PrismaClient();
 
-// run the server
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
+// Attach db to request
+app.use((req: Request, res: Response, next: NextFunction) => {
+  req.db = prisma;
+  next();
+});
+
+// Routes
+app.get('/', (req: Request, res: Response) => {
+  res.json({ hello: 'world' });
+});
+
+app.use(registerRouter);
+app.use(loginRouter);
+app.use(healthRouter);
+
+// 404 handler
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+// Error handling middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal server error' });
+});
+
+// Start server
 const start = async () => {
+  try {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server listening on http://0.0.0.0:${PORT}`);
+    });
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
 
-    await fastify.listen({ port: 5000, host: '0.0.0.0' }, function (err, address) {
-        if (err) {
-            fastify.log.error(err)
-            process.exit(1)
-        }
-        fastify.log.info(`Server listening on ${address}`)
-    })
-}
-start()
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  await prisma.$disconnect();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  await prisma.$disconnect();
+  process.exit(0);
+});
+
+start();

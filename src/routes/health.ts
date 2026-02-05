@@ -1,7 +1,7 @@
-import type { FastifyPluginAsync } from "fastify";
+import { Router, Request, Response } from 'express';
 
-export const healthRoutes: FastifyPluginAsync = async (app) => {
-    app.get('/health', async () => {
-        return { ok: true }
-    })
-}   
+export const healthRouter = Router();
+
+healthRouter.get('/health', (req: Request, res: Response) => {
+  res.json({ ok: true });
+});

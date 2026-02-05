@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../src/generated"
 }
 
 datasource db {
@@ -19,9 +19,8 @@ model User {
   name           String 
   email          String         @unique
   password       String  
-  createdAt      DateTime?      @default(now())
-  updatedAt      DateTime?      @updatedAt
-  totalExpense   Int
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
   expenses       Expense[]    
 }
 
@@ -36,6 +35,6 @@ model Expense {
   status    ExpenseStatus
   userId    String        @db.Uuid
   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime?     @default(now())
-  updatedAt DateTime?     @updatedAt
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 }   

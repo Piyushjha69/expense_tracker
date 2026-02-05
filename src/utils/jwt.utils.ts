@@ -1,13 +1,17 @@
 import jwt from 'jsonwebtoken'
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET 
-const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY 
-const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY 
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'default-access-secret'
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'default-refresh-secret'
+const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY || '15m'
+const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY || '7d'
+
+if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
+  console.warn('⚠️  JWT secrets not configured in .env. Using defaults (development only)');
+} 
 
 export interface TokenPayload {
     userId: string
-    password: string
+    email: string
 }
 
 export interface JwtTokens {

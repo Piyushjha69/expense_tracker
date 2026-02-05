@@ -1,26 +1,40 @@
-import type { FastifyPluginAsync, User } from "fastify";
+import { Router, Request, Response } from 'express';
+import { RegisterSchema, RegisterInput } from '../schemas/register.schema';
+import { AuthService } from '../services/auth.service';
 
+export const registerRouter = Router();
 
-export const registerRoutes: FastifyPluginAsync = async (app) => {
-    const bcrypt = require('bcryptjs')
-    const User = app.db.User
+registerRouter.post('/register', async (req: Request, res: Response) => {
+  try {
+    if (!req.db) {
+      return res.status(500).json({ message: 'Database not initialized' });
+    }
 
-    app.post( '/register', async (request, reply) => {
-        const{ username, password } = request.body as User
+    // Validate request body
+    const validatedData: RegisterInput = RegisterSchema.parse(req.body);
 
-        //checking if user exists
-        const existingUser = User.find((u:  User) => u.username === username)
-        if (existingUser){
-            return reply.status(400).send({message: 'User ALready Exists'})
-        }
+    // Register user
+    const authService = new AuthService(req.db);
+    const user = await authService.register(validatedData);
 
-        //hashing the password
-        const passwordHash = await bcrypt.hash(password, 10)
+    res.status(201).json({ 
+      message: 'User registered successfully', 
+      user 
+    });
+  } catch (error: any) {
+    console.error('Register error:', error);
+    
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ 
+        message: 'Validation error', 
+        errors: error.errors 
+      });
+    }
 
-        //creating new user
-        const newUser = { id: User.length + 1, username, passwordHash }
-        User.push(newUser)  
+    if (error.message && error.message.includes('already exists')) {
+      return res.status(400).json({ message: error.message });
+    }
 
-        reply.status(201).send({message: 'User Registered Successfully'})
-    })
-}
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
