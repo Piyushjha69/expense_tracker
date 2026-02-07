@@ -2,8 +2,8 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { PrismaClient } from './generated';
-import { registerRouter } from './routes/register';
-import { loginRouter } from './routes/login';
+import { registerRouter } from './routes/register.routes';
+import { loginRouter } from './routes/login.routes';
 import { healthRouter } from './routes/health';
 
 // Load environment variables

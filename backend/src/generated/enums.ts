@@ -10,8 +10,8 @@
 */
 
 export const ExpenseStatus = {
-  CREDIT_OF: 'CREDIT_OF',
-  DEBIT_OF: 'DEBIT_OF'
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
 } as const
 
 export type ExpenseStatus = (typeof ExpenseStatus)[keyof typeof ExpenseStatus]

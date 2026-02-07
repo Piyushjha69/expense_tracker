@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ExpenseStatus" AS ENUM ('CREDIT_OF', 'DEBIT_OF');
+CREATE TYPE "ExpenseStatus" AS ENUM ('CREDIT', 'DEBIT');
 
 -- CreateTable
 CREATE TABLE "User" (
