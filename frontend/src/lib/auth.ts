@@ -5,17 +5,20 @@ export function setAccessToken(token: string) {
     localStorage.setItem(ACCESS_KEY, token)
 }
 
-export function getAccessToken() {
-    return localStorage.getItem(ACCESS_KEY)
-}
+export const getAccessToken = () => {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(ACCESS_KEY);
+};
 
 export function setRefreshToken(token: string) {
     localStorage.setItem(REFRESH_KEY, token)
 }
 
-export function getRefreshToken() {
-    return localStorage.getItem(REFRESH_KEY)
-}
+export const getRefreshToken = () => {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(REFRESH_KEY);
+};
+
 
 export function logout() {
     localStorage.removeItem(ACCESS_KEY)

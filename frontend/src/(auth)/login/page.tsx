@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../../lib/useAuth";
 import { useState } from "react";
 import { apiFetch } from "../../lib/api";

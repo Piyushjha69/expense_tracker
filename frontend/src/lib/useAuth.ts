@@ -1,5 +1,6 @@
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+"use client"
+
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAccessToken } from "./auth";
 

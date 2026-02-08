@@ -5,10 +5,11 @@ import { useEffect, useState } from "react"
 import { getAccessToken } from "./lib/auth";
 
 
-export default function HomePage() {
+export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    console.log("ablaksjdfm")
     const getToken = getAccessToken();
     if (getToken) {
       setIsLoggedIn(true)
