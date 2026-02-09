@@ -40,3 +40,5 @@ router.delete (
     validateRequest ({ params: ExpenseIdParamSchema }),
     deleteExpense
 )
+
+export default router

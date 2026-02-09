@@ -44,7 +44,7 @@ export default function loginPage() {
         setLoading(true)
 
         try {
-            const res = await apiFetch("/auth/login", {
+            const res = await apiFetch("/login", {
                 method: "POST",
                 body: JSON.stringify({ email, password})
             })

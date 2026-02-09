@@ -113,13 +113,14 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$lib$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/app/lib/auth.ts [app-client] (ecmascript)");
 ;
-const API_URL = ("TURBOPACK compile-time value", "http://localhost:3001");
+const API_URL = ("TURBOPACK compile-time value", "http://localhost:5000");
 if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
 ;
 async function apiFetch(endpoint, options = {}) {
     try {
         const token = (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$lib$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAccessToken"])();
-        const res = await fetch(`${API_URL}${endpoint}`, {
+        console.log("apiFetch - Token:", token ? "exists" : "missing", "Endpoint:", endpoint);
+        let res = await fetch(`${API_URL}${endpoint}`, {
             ...options,
             headers: {
                 "Content-Type": "application/json",
@@ -127,11 +128,11 @@ async function apiFetch(endpoint, options = {}) {
                     Authorization: `Bearer ${token}`
                 } : {},
                 ...options.headers || {}
-            },
-            credentials: "include"
+            }
         });
+        console.log("apiFetch response status:", res.status, "for endpoint:", endpoint);
         // refresh if access is expired
-        if (res.status == 401) {
+        if (res.status === 401) {
             //only attempt refresh if we had a token
             if (!token) {
                 //no token means user isn't logged in
@@ -146,7 +147,7 @@ async function apiFetch(endpoint, options = {}) {
                 throw new Error("Session expired. Please login again");
             }
             const newToken = (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$lib$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAccessToken"])();
-            return fetch(`${API_URL}${endpoint}`, {
+            res = await fetch(`${API_URL}${endpoint}`, {
                 ...options,
                 headers: {
                     "Content-Type": "application/json",
@@ -154,13 +155,19 @@ async function apiFetch(endpoint, options = {}) {
                         Authorization: `Bearer ${newToken}`
                     } : {},
                     ...options.headers || {}
-                },
-                credentials: "include"
+                }
             });
+        }
+        if (!res.ok && res.status !== 401) {
+            const error = await res.json().catch(()=>({
+                    message: `HTTP ${res.status}`
+                }));
+            throw new Error(error.message || `API Error: ${res.status}`);
         }
         return res;
     } catch (err) {
-        throw new Error("Failed to fetch (Backend not reachable / CORS issue)");
+        console.error("API Error:", err);
+        throw err instanceof Error ? err : new Error("Failed to fetch (Backend not reachable / CORS issue)");
     }
 }
 async function refreshAccessToken() {
@@ -174,8 +181,7 @@ async function refreshAccessToken() {
             },
             body: JSON.stringify({
                 refreshToken
-            }),
-            credentials: "include"
+            })
         });
         if (!res.ok) return false;
         const data = await res.json();
@@ -247,7 +253,7 @@ function loginPage() {
         if (!validateForm()) return;
         setLoading(true);
         try {
-            const res = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiFetch"])("/auth/login", {
+            const res = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiFetch"])("/login", {
                 method: "POST",
                 body: JSON.stringify({
                     email,

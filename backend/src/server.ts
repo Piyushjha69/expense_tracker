@@ -5,12 +5,13 @@ import { PrismaClient } from './generated';
 import { registerRouter } from './routes/register.routes';
 import { loginRouter } from './routes/login.routes';
 import { healthRouter } from './routes/health';
+import expenseRouter from './routes/expense.routes';
 
 // Load environment variables
 dotenv.config();
 
 const app: Express = express();
-const PORT = parseInt(process.env.PORT || '5432', 10);
+const PORT = parseInt(process.env.PORT || '5000', 10);
 const prisma = new PrismaClient();
 
 // Middleware
@@ -32,6 +33,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use(registerRouter);
 app.use(loginRouter);
 app.use(healthRouter);
+app.use('/expense', expenseRouter);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

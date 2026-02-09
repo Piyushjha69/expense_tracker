@@ -8,6 +8,10 @@ export const CreateExpenseSchema = z.object ({
         .string()
         .min(1, "Title is required")
         .max(200, "Tittle must not exceed 200 characters"),
+    amount: z
+        .union([z.number(), z.string().transform(val => parseFloat(val))])
+        .pipe(z.number().positive("Amount must be a positive number"))
+        .optional(),
     status: StatusEnum.optional()
 })
 
@@ -20,7 +24,11 @@ export const UpdateExpenseSchema = z.object ({
         .min(1, "Title is required")
         .max(200, "Title must not exceed 200 characters")
         .optional(),
-    status: StatusEnum.optional
+    amount: z
+        .union([z.number(), z.string().transform(val => parseFloat(val))])
+        .pipe(z.number().positive("Amount must be a positive number"))
+        .optional(),
+    status: StatusEnum.optional()
 })
 
 export type UpdateExpenseInput = z.infer<typeof UpdateExpenseSchema>

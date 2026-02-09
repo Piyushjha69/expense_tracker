@@ -3,15 +3,17 @@ import { ExpenseStatus, PrismaClient } from "../generated";
 const prisma = new PrismaClient()
 
 export interface AddExpenseDTO {
-    title: string
-    status: ExpenseStatus
-    userId: string
-}
+     title: string
+     amount: number
+     status: ExpenseStatus
+     userId: string
+ }
 
 export interface UpdateExpenseDTO {
-    title?: string
-    status?: ExpenseStatus
-}
+     title?: string
+     amount?: number
+     status?: ExpenseStatus
+ }
 
 export interface ExpenseListQueryDTO {
     page?: number
@@ -31,6 +33,7 @@ export class ExpenseService {
         const expense = await prisma.expense.create({
             data: {
                 title: data.title,
+                amount: data.amount,
                 status: data.status,
                 userId: data.userId
             }
@@ -70,7 +73,7 @@ export class ExpenseService {
         ])
 
         return {
-            expense,
+            expenses: expense,
             total,
             page,
             limit,
@@ -103,6 +106,7 @@ export class ExpenseService {
             where: { id: expenseId },
             data: {
                 ...(data.title !== undefined ? { title: data.title } : {}),
+                ...(data.amount !== undefined ? { amount: data.amount } : {}),
                 ...(data.status !== undefined ? { status: data.status } : {}),
             }
         })

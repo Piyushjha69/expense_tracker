@@ -12,11 +12,13 @@ import { toast } from "sonner";
 export default function RegisterPage() {
     const router = useRouter();
     const { isLoading: authLoading } = useAuth(false);
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<{
+        name?: string;
         email?: string;
         password?: string;
         confirmPassword?: string;
@@ -24,10 +26,17 @@ export default function RegisterPage() {
 
     function validateForm() {
         const newErrors: {
+            name?: string;
             email?: string;
             password?: string;
             confirmPassword?: string;
         } = {};
+
+        if (!name.trim()) {
+            newErrors.name = "Name is required";
+        } else if (name.trim().length < 2) {
+            newErrors.name = "Name must be at least 2 characters";
+        }
 
         if (!email.trim()) {
             newErrors.email = "Email is required";
@@ -57,9 +66,9 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-            const res = await apiFetch("/auth/register", {
+            const res = await apiFetch("/register", {
                 method: "POST",
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ name, email, password }),
             });
 
             const data = await res.json();
@@ -105,6 +114,23 @@ export default function RegisterPage() {
                     <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
                         <h1 className="text-2xl font-bold text-white mb-6">Create Account</h1>
                         <form onSubmit={handleRegister} className="space-y-4">
+                            <div>
+                                <input
+                                    placeholder="Full Name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        if (errors.name)
+                                            setErrors({ ...errors, name: undefined });
+                                    }}
+                                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                />
+                                {errors.name && (
+                                    <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+                                )}
+                            </div>
+
                             <div>
                                 <input
                                     placeholder="Email"

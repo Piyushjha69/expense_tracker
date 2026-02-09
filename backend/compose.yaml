@@ -11,8 +11,9 @@ services:
   server:
     build:
       context: .
+      dockerfile: Dockerfile.dev
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       DATABASE_URL: postgresql://postgres:postgres@db:5432/expensetracker?schema=public
     ports:
       - 5000:5000

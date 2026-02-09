@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated"
+  provider      = "prisma-client"
+  output        = "../src/generated"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -30,11 +31,12 @@ enum ExpenseStatus {
 }
 
 model Expense {
-  id        String        @id @default(uuid()) @db.Uuid
-  title     String    
-  status    ExpenseStatus
-  userId    String        @db.Uuid
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-}   
+   id        String        @id @default(uuid()) @db.Uuid
+   title     String    
+   amount    Float         @default(0)
+   status    ExpenseStatus
+   userId    String        @db.Uuid
+   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+   createdAt DateTime     @default(now())
+   updatedAt DateTime     @updatedAt
+}

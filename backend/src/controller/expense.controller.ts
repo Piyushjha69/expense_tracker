@@ -29,12 +29,13 @@ export const createExpense = async (req: Request, res: Response) => {
         }
 
         const data: AddExpenseDTO = {
-            title: body.title,
-            userId: userId,
-            status: status
-        }
+             title: body.title,
+             amount: body.amount || 0,
+             userId: userId,
+             status: status
+         }
 
-        const expenseId = await expenseService.addExpense(data)
+         const expenseId = await expenseService.addExpense(data)
 
         return res.status(201).json({
             message: "Expense added successfully",
@@ -73,8 +74,12 @@ export const getExpense = async (req: Request, res: Response) => {
             ...(query.search ? { search: query.search } : {}),
         });
 
-
-        return res.status(200).json(result);
+        return res.status(200).json({
+            expense: result.expenses,
+            total: result.total,
+            page: result.page,
+            limit: result.limit
+        });
     } catch (error: any) {
         if (error?.name === "ZodError") {
             return res.status(400).json({
@@ -133,6 +138,10 @@ export const updateExpense = async (req: Request, res: Response) => {
         
         if (body.title !== undefined) {
             updateData.title = body.title;
+        }
+        
+        if (body.amount !== undefined) {
+            updateData.amount = body.amount;
         }
         
         if (body.status) {

@@ -9,19 +9,20 @@ if (!API_URL) {
 export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     try {
         const token = getAccessToken()
+        console.log("apiFetch - Token:", token ? "exists" : "missing", "Endpoint:", endpoint)
 
-        const res = await fetch(`${API_URL}${endpoint}`, {
+        let res = await fetch(`${API_URL}${endpoint}`, {
             ...options,
             headers: {
                 "Content-Type": "application/json",
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 ...(options.headers || {})
-            },
-            credentials: "include"
+            }
         })
+        console.log("apiFetch response status:", res.status, "for endpoint:", endpoint)
 
         // refresh if access is expired
-        if (res.status == 401) {
+        if (res.status === 401) {
             //only attempt refresh if we had a token
             if (!token) {
                 //no token means user isn't logged in
@@ -38,19 +39,25 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
             }
 
             const newToken = getAccessToken()
-            return fetch(`${API_URL}${endpoint}`, {
+            res = await fetch(`${API_URL}${endpoint}`, {
                 ...options,
                 headers: {
                     "Content-Type": "application/json",
                     ...(newToken ? { Authorization: `Bearer ${newToken}` } : {}),
                     ...(options.headers || {})
-                },
-                credentials: "include"
+                }
             })
         }
+
+        if (!res.ok && res.status !== 401) {
+            const error = await res.json().catch(() => ({ message: `HTTP ${res.status}` }))
+            throw new Error(error.message || `API Error: ${res.status}`)
+        }
+
         return res
     } catch (err) {
-        throw new Error ("Failed to fetch (Backend not reachable / CORS issue)")
+        console.error("API Error:", err)
+        throw err instanceof Error ? err : new Error("Failed to fetch (Backend not reachable / CORS issue)")
     }
 }
 
@@ -64,8 +71,7 @@ async function refreshAccessToken() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({refreshToken}),
-            credentials: "include"
+            body: JSON.stringify({refreshToken})
         })
 
         if (!res.ok) return false
