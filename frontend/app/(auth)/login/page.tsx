@@ -44,12 +44,16 @@ export default function loginPage() {
         setLoading(true)
 
         try {
+            console.log("Attempting login with email:", email)
             const res = await apiFetch("/login", {
                 method: "POST",
                 body: JSON.stringify({ email, password})
             })
 
+            console.log("Login response status:", res.status)
             const data = await res.json()
+            console.log("Login response data:", data)
+            
             if(!data.success) throw new Error(data.message || "Login failed")
 
             const tokens = data.data.tokens
@@ -59,6 +63,7 @@ export default function loginPage() {
             toast.success("Login successful!")
             router.push("/expense")
         } catch (err: any) {
+            console.error("Login error:", err)
             toast.error(err.message || "Login Failed")
         } finally {
             setLoading(false)
@@ -94,8 +99,11 @@ export default function loginPage() {
                         <form onSubmit={handleLogin} className="space-y-4">
                             <div>
                                 <input
-                                    placeholder="Email"
+                                    id="email"
+                                    name="email"
                                     type="email"
+                                    placeholder="Email"
+                                    autoComplete="email"
                                     value={email}
                                     onChange={(e) => {
                                         setEmail(e.target.value);
@@ -111,8 +119,11 @@ export default function loginPage() {
 
                             <div>
                                 <input
-                                    placeholder="Password"
+                                    id="password"
+                                    name="password"
                                     type="password"
+                                    placeholder="Password"
+                                    autoComplete="current-password"
                                     value={password}
                                     onChange={(e) => {
                                         setPassword(e.target.value);

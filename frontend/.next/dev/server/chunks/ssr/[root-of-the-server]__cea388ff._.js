@@ -141,9 +141,7 @@ async function apiFetch(endpoint, options = {}) {
         if (res.status === 401) {
             //only attempt refresh if we had a token
             if (!token) {
-                //no token means user isn't logged in
-                if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-                ;
+                //no token means user isn't logged in - don't redirect on login page
                 throw new Error("Please Login to continue");
             }
             const refreshed = await refreshAccessToken();

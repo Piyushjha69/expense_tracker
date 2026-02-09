@@ -22,15 +22,12 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
         console.log("apiFetch response status:", res.status, "for endpoint:", endpoint)
 
         // refresh if access is expired
-        if (res.status === 401) {
-            //only attempt refresh if we had a token
-            if (!token) {
-                //no token means user isn't logged in
-                if (typeof window !== "undefined") {
-                    window.location.href = "/login"
-                }
-                throw new Error("Please Login to continue")
-            }
+         if (res.status === 401) {
+             //only attempt refresh if we had a token
+             if (!token) {
+                 //no token means user isn't logged in - don't redirect on login page
+                 throw new Error("Please Login to continue")
+             }
 
             const refreshed = await refreshAccessToken()
             if (!refreshed) {
