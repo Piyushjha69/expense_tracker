@@ -223,6 +223,55 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+const CATEGORIES = [
+    {
+        value: "food",
+        label: "🍔 Food"
+    },
+    {
+        value: "travel",
+        label: "✈️ Travel"
+    },
+    {
+        value: "shopping",
+        label: "🛍️ Shopping"
+    },
+    {
+        value: "phone_recharge",
+        label: "📱 Phone Recharge"
+    },
+    {
+        value: "wifi_recharge",
+        label: "📶 WiFi Recharge"
+    },
+    {
+        value: "entertainment",
+        label: "🎬 Entertainment"
+    },
+    {
+        value: "utilities",
+        label: "💡 Utilities"
+    },
+    {
+        value: "healthcare",
+        label: "⚕️ Healthcare"
+    },
+    {
+        value: "other",
+        label: "📌 Other"
+    }
+];
+const COLORS = [
+    "#3B82F6",
+    "#10B981",
+    "#F59E0B",
+    "#EF4444",
+    "#8B5CF6",
+    "#EC4899",
+    "#14B8A6",
+    "#F97316",
+    "#6366F1"
+];
 function ExpensePage() {
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -230,6 +279,7 @@ function ExpensePage() {
     const [expenses, setExpenses] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [title, setTitle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [category, setCategory] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("other");
     const [amount, setAmount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [status, setStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("DEBIT");
     const [editingId, setEditingId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -281,6 +331,7 @@ function ExpensePage() {
                 method: "POST",
                 body: JSON.stringify({
                     title,
+                    category,
                     amount: parseFloat(amount),
                     status
                 })
@@ -290,6 +341,7 @@ function ExpensePage() {
             if (!res.ok) throw new Error(data.message || "Failed to create expense");
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].success("Expense added!");
             setTitle("");
+            setCategory("other");
             setAmount("");
             setStatus("DEBIT");
             console.log("Fetching expenses for page:", page);
@@ -366,16 +418,34 @@ function ExpensePage() {
                 children: "Loading..."
             }, void 0, false, {
                 fileName: "[project]/app/expense/page.tsx",
-                lineNumber: 164,
+                lineNumber: 181,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/expense/page.tsx",
-            lineNumber: 163,
+            lineNumber: 180,
             columnNumber: 13
         }, this);
     }
     const totalPages = Math.ceil(total / limit);
+    // Calculate chart data
+    const categoryData = CATEGORIES.map((cat)=>{
+        const categoryExpenses = expenses.filter((e)=>e.status === "DEBIT" && e.category === cat.value).reduce((sum, e)=>sum + e.amount, 0);
+        return {
+            name: cat.label,
+            value: categoryExpenses || 0
+        };
+    }).filter((item)=>item.value > 0);
+    const monthlyData = [
+        {
+            name: "Debits",
+            value: expenses.filter((e)=>e.status === "DEBIT").reduce((sum, e)=>sum + e.amount, 0)
+        },
+        {
+            name: "Credits",
+            value: expenses.filter((e)=>e.status === "CREDIT").reduce((sum, e)=>sum + e.amount, 0)
+        }
+    ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen bg-gradient-to-br from-slate-900 to-slate-800",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -391,7 +461,7 @@ function ExpensePage() {
                                     children: "Expense Tracker"
                                 }, void 0, false, {
                                     fileName: "[project]/app/expense/page.tsx",
-                                    lineNumber: 177,
+                                    lineNumber: 220,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -399,13 +469,13 @@ function ExpensePage() {
                                     children: "Manage your expenses efficiently"
                                 }, void 0, false, {
                                     fileName: "[project]/app/expense/page.tsx",
-                                    lineNumber: 178,
+                                    lineNumber: 221,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/expense/page.tsx",
-                            lineNumber: 176,
+                            lineNumber: 219,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -416,20 +486,20 @@ function ExpensePage() {
                                     size: 18
                                 }, void 0, false, {
                                     fileName: "[project]/app/expense/page.tsx",
-                                    lineNumber: 184,
+                                    lineNumber: 227,
                                     columnNumber: 25
                                 }, this),
                                 "Logout"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/expense/page.tsx",
-                            lineNumber: 180,
+                            lineNumber: 223,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/expense/page.tsx",
-                    lineNumber: 175,
+                    lineNumber: 218,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -440,37 +510,55 @@ function ExpensePage() {
                             children: "Add New Expense"
                         }, void 0, false, {
                             fileName: "[project]/app/expense/page.tsx",
-                            lineNumber: 191,
+                            lineNumber: 234,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                             onSubmit: handleCreate,
                             className: "space-y-4",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex gap-4",
+                                className: "flex gap-4 items-center flex-wrap",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "text",
                                         placeholder: "Expense title",
                                         value: title,
                                         onChange: (e)=>setTitle(e.target.value),
-                                        className: "flex-1 px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                        className: "flex-1 px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 min-w-40"
                                     }, void 0, false, {
                                         fileName: "[project]/app/expense/page.tsx",
-                                        lineNumber: 194,
+                                        lineNumber: 237,
+                                        columnNumber: 30
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                        value: category,
+                                        onChange: (e)=>setCategory(e.target.value),
+                                        className: "px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white focus:outline-none focus:border-blue-500",
+                                        children: CATEGORIES.map((cat)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                value: cat.value,
+                                                children: cat.label
+                                            }, cat.value, false, {
+                                                fileName: "[project]/app/expense/page.tsx",
+                                                lineNumber: 250,
+                                                columnNumber: 38
+                                            }, this))
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/expense/page.tsx",
+                                        lineNumber: 244,
                                         columnNumber: 30
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "number",
-                                        placeholder: "Amount",
                                         step: "0.01",
                                         min: "0",
+                                        placeholder: "0.00",
                                         value: amount,
                                         onChange: (e)=>setAmount(e.target.value),
-                                        className: "px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 w-32"
+                                        className: "px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 w-28 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&]:appearance-textfield",
+                                        required: true
                                     }, void 0, false, {
                                         fileName: "[project]/app/expense/page.tsx",
-                                        lineNumber: 201,
+                                        lineNumber: 253,
                                         columnNumber: 30
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -483,7 +571,7 @@ function ExpensePage() {
                                                 children: "Expense (Debit)"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 215,
+                                                lineNumber: 268,
                                                 columnNumber: 34
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -491,49 +579,49 @@ function ExpensePage() {
                                                 children: "Income (Credit)"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 216,
+                                                lineNumber: 269,
                                                 columnNumber: 34
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/expense/page.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 263,
                                         columnNumber: 30
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         type: "submit",
                                         disabled: loading,
-                                        className: "px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white rounded font-medium transition-colors flex items-center gap-2",
+                                        className: "px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white rounded font-medium transition-colors flex items-center gap-2 whitespace-nowrap",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                                 size: 18
                                             }, void 0, false, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 223,
+                                                lineNumber: 276,
                                                 columnNumber: 34
                                             }, this),
                                             "Add"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/expense/page.tsx",
-                                        lineNumber: 218,
+                                        lineNumber: 271,
                                         columnNumber: 30
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/expense/page.tsx",
-                                lineNumber: 193,
+                                lineNumber: 236,
                                 columnNumber: 26
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/expense/page.tsx",
-                            lineNumber: 192,
+                            lineNumber: 235,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/expense/page.tsx",
-                    lineNumber: 190,
+                    lineNumber: 233,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -543,7 +631,7 @@ function ExpensePage() {
                         children: "No expenses yet. Add one to get started!"
                     }, void 0, false, {
                         fileName: "[project]/app/expense/page.tsx",
-                        lineNumber: 233,
+                        lineNumber: 286,
                         columnNumber: 25
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                         children: [
@@ -561,7 +649,7 @@ function ExpensePage() {
                                                         children: "Title"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/expense/page.tsx",
-                                                        lineNumber: 242,
+                                                        lineNumber: 295,
                                                         columnNumber: 46
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -569,7 +657,7 @@ function ExpensePage() {
                                                         children: "Amount"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/expense/page.tsx",
-                                                        lineNumber: 245,
+                                                        lineNumber: 298,
                                                         columnNumber: 46
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -577,7 +665,7 @@ function ExpensePage() {
                                                         children: "Type"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/expense/page.tsx",
-                                                        lineNumber: 248,
+                                                        lineNumber: 301,
                                                         columnNumber: 46
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -585,7 +673,7 @@ function ExpensePage() {
                                                         children: "Date"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/expense/page.tsx",
-                                                        lineNumber: 251,
+                                                        lineNumber: 304,
                                                         columnNumber: 46
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -593,18 +681,18 @@ function ExpensePage() {
                                                         children: "Actions"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/expense/page.tsx",
-                                                        lineNumber: 254,
+                                                        lineNumber: 307,
                                                         columnNumber: 46
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 241,
+                                                lineNumber: 294,
                                                 columnNumber: 42
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/expense/page.tsx",
-                                            lineNumber: 240,
+                                            lineNumber: 293,
                                             columnNumber: 37
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -622,12 +710,12 @@ function ExpensePage() {
                                                                 autoFocus: true
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/expense/page.tsx",
-                                                                lineNumber: 264,
+                                                                lineNumber: 317,
                                                                 columnNumber: 57
                                                             }, this) : expense.title
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/expense/page.tsx",
-                                                            lineNumber: 262,
+                                                            lineNumber: 315,
                                                             columnNumber: 49
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -641,12 +729,12 @@ function ExpensePage() {
                                                                 className: "px-2 py-1 bg-slate-600 border border-slate-500 rounded text-white focus:outline-none focus:border-blue-500 w-24"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/expense/page.tsx",
-                                                                lineNumber: 277,
+                                                                lineNumber: 330,
                                                                 columnNumber: 57
                                                             }, this) : `₹${expense.amount?.toFixed(2) || '0.00'}`
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/expense/page.tsx",
-                                                            lineNumber: 275,
+                                                            lineNumber: 328,
                                                             columnNumber: 49
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -656,12 +744,12 @@ function ExpensePage() {
                                                                 children: expense.status
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/expense/page.tsx",
-                                                                lineNumber: 290,
+                                                                lineNumber: 343,
                                                                 columnNumber: 53
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/expense/page.tsx",
-                                                            lineNumber: 289,
+                                                            lineNumber: 342,
                                                             columnNumber: 49
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -669,7 +757,7 @@ function ExpensePage() {
                                                             children: new Date(expense.createdAt).toLocaleDateString()
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/expense/page.tsx",
-                                                            lineNumber: 299,
+                                                            lineNumber: 352,
                                                             columnNumber: 49
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -685,7 +773,7 @@ function ExpensePage() {
                                                                             children: "Save"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/expense/page.tsx",
-                                                                            lineNumber: 306,
+                                                                            lineNumber: 359,
                                                                             columnNumber: 65
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -694,7 +782,7 @@ function ExpensePage() {
                                                                             children: "Cancel"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/expense/page.tsx",
-                                                                            lineNumber: 313,
+                                                                            lineNumber: 366,
                                                                             columnNumber: 65
                                                                         }, this)
                                                                     ]
@@ -712,12 +800,12 @@ function ExpensePage() {
                                                                                 size: 16
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/expense/page.tsx",
-                                                                                lineNumber: 331,
+                                                                                lineNumber: 384,
                                                                                 columnNumber: 69
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/expense/page.tsx",
-                                                                            lineNumber: 322,
+                                                                            lineNumber: 375,
                                                                             columnNumber: 65
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -728,46 +816,46 @@ function ExpensePage() {
                                                                                 size: 16
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/expense/page.tsx",
-                                                                                lineNumber: 338,
+                                                                                lineNumber: 391,
                                                                                 columnNumber: 69
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/expense/page.tsx",
-                                                                            lineNumber: 333,
+                                                                            lineNumber: 386,
                                                                             columnNumber: 65
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/expense/page.tsx",
-                                                                lineNumber: 303,
+                                                                lineNumber: 356,
                                                                 columnNumber: 53
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/expense/page.tsx",
-                                                            lineNumber: 302,
+                                                            lineNumber: 355,
                                                             columnNumber: 49
                                                         }, this)
                                                     ]
                                                 }, expense.id, true, {
                                                     fileName: "[project]/app/expense/page.tsx",
-                                                    lineNumber: 261,
+                                                    lineNumber: 314,
                                                     columnNumber: 45
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/app/expense/page.tsx",
-                                            lineNumber: 259,
+                                            lineNumber: 312,
                                             columnNumber: 37
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/expense/page.tsx",
-                                    lineNumber: 239,
+                                    lineNumber: 292,
                                     columnNumber: 33
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/expense/page.tsx",
-                                lineNumber: 238,
+                                lineNumber: 291,
                                 columnNumber: 29
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -786,7 +874,7 @@ function ExpensePage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/expense/page.tsx",
-                                        lineNumber: 352,
+                                        lineNumber: 405,
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -799,7 +887,7 @@ function ExpensePage() {
                                                 children: "Previous"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 357,
+                                                lineNumber: 410,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -811,7 +899,7 @@ function ExpensePage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 364,
+                                                lineNumber: 417,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -821,41 +909,41 @@ function ExpensePage() {
                                                 children: "Next"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/expense/page.tsx",
-                                                lineNumber: 367,
+                                                lineNumber: 420,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/expense/page.tsx",
-                                        lineNumber: 356,
+                                        lineNumber: 409,
                                         columnNumber: 33
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/expense/page.tsx",
-                                lineNumber: 351,
+                                lineNumber: 404,
                                 columnNumber: 29
                             }, this)
                         ]
                     }, void 0, true)
                 }, void 0, false, {
                     fileName: "[project]/app/expense/page.tsx",
-                    lineNumber: 231,
+                    lineNumber: 284,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/expense/page.tsx",
-            lineNumber: 173,
+            lineNumber: 216,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/expense/page.tsx",
-        lineNumber: 172,
+        lineNumber: 215,
         columnNumber: 9
     }, this);
 }
-_s(ExpensePage, "p6W4NkhhbpjvC3YOWKBoc7ISieU=", false, function() {
+_s(ExpensePage, "1/6+maiX6fkSl+ZfR+uZfkf2hp4=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$lib$2f$useAuth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"]

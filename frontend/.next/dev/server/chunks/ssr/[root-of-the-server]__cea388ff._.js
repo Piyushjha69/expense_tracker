@@ -300,15 +300,15 @@ function RegisterPage() {
         }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen bg-gradient-to-br from-slate-900 to-slate-800",
+        className: "min-h-screen bg-gradient-to-br from-purple-950 via-black to-indigo-950",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-                className: "border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm",
+                className: "border-b border-purple-500/30 bg-black/30 backdrop-blur-sm shadow-lg shadow-purple-500/10",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "max-w-md mx-auto px-4 py-6",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                         href: "/",
-                        className: "flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors",
+                        className: "flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$left$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowLeft$3e$__["ArrowLeft"], {
                                 size: 16
@@ -339,10 +339,10 @@ function RegisterPage() {
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "w-full max-w-md",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "bg-slate-800 rounded-lg border border-slate-700 p-6",
+                        className: "bg-black/40 rounded-lg border border-purple-500/40 p-6 backdrop-blur-md shadow-lg shadow-purple-500/20",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                className: "text-2xl font-bold text-white mb-6",
+                                className: "text-2xl font-bold bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent mb-6",
                                 children: "Create Account"
                             }, void 0, false, {
                                 fileName: "[project]/app/(auth)/register/page.tsx",
@@ -366,14 +366,14 @@ function RegisterPage() {
                                                         name: undefined
                                                     });
                                                 },
-                                                className: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                                className: "w-full px-3 py-2 bg-black/50 border border-cyan-500/50 rounded text-cyan-300 placeholder-cyan-600 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
                                                 lineNumber: 118,
                                                 columnNumber: 33
                                             }, this),
                                             errors.name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-red-400 text-sm mt-1",
+                                                className: "text-pink-400 text-sm mt-1",
                                                 children: errors.name
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
@@ -399,14 +399,14 @@ function RegisterPage() {
                                                         email: undefined
                                                     });
                                                 },
-                                                className: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                                className: "w-full px-3 py-2 bg-black/50 border border-cyan-500/50 rounded text-cyan-300 placeholder-cyan-600 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
                                                 lineNumber: 135,
                                                 columnNumber: 33
                                             }, this),
                                             errors.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-red-400 text-sm mt-1",
+                                                className: "text-pink-400 text-sm mt-1",
                                                 children: errors.email
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
@@ -432,14 +432,14 @@ function RegisterPage() {
                                                         password: undefined
                                                     });
                                                 },
-                                                className: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                                className: "w-full px-3 py-2 bg-black/50 border border-pink-500/50 rounded text-pink-300 placeholder-pink-600 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-500/30"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
                                                 lineNumber: 152,
                                                 columnNumber: 33
                                             }, this),
                                             errors.password && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-red-400 text-sm mt-1",
+                                                className: "text-pink-400 text-sm mt-1",
                                                 children: errors.password
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
@@ -465,14 +465,14 @@ function RegisterPage() {
                                                         confirmPassword: undefined
                                                     });
                                                 },
-                                                className: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                                className: "w-full px-3 py-2 bg-black/50 border border-pink-500/50 rounded text-pink-300 placeholder-pink-600 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-500/30"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
                                                 lineNumber: 169,
                                                 columnNumber: 33
                                             }, this),
                                             errors.confirmPassword && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-red-400 text-sm mt-1",
+                                                className: "text-pink-400 text-sm mt-1",
                                                 children: errors.confirmPassword
                                             }, void 0, false, {
                                                 fileName: "[project]/app/(auth)/register/page.tsx",
@@ -487,7 +487,7 @@ function RegisterPage() {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         disabled: loading,
-                                        className: "w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white rounded font-medium transition-colors",
+                                        className: "w-full px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 shadow-lg shadow-cyan-500/50 text-white rounded font-medium transition-colors",
                                         children: loading ? "Creating Account..." : "Register"
                                     }, void 0, false, {
                                         fileName: "[project]/app/(auth)/register/page.tsx",
@@ -501,13 +501,13 @@ function RegisterPage() {
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-center mt-4 text-sm text-slate-400",
+                                className: "text-center mt-4 text-sm text-purple-300",
                                 children: [
                                     "Already have an account?",
                                     " ",
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                         href: "/login",
-                                        className: "text-blue-400 hover:text-blue-300",
+                                        className: "text-cyan-400 hover:text-cyan-300 font-medium",
                                         children: "Sign in"
                                     }, void 0, false, {
                                         fileName: "[project]/app/(auth)/register/page.tsx",

@@ -8,6 +8,10 @@ export const CreateExpenseSchema = z.object ({
         .string()
         .min(1, "Title is required")
         .max(200, "Tittle must not exceed 200 characters"),
+    category: z
+        .string()
+        .default("other")
+        .optional(),
     amount: z
         .union([z.number(), z.string().transform(val => parseFloat(val))])
         .pipe(z.number().positive("Amount must be a positive number"))
@@ -23,6 +27,9 @@ export const UpdateExpenseSchema = z.object ({
         .string()
         .min(1, "Title is required")
         .max(200, "Title must not exceed 200 characters")
+        .optional(),
+    category: z
+        .string()
         .optional(),
     amount: z
         .union([z.number(), z.string().transform(val => parseFloat(val))])

@@ -79,12 +79,12 @@ export default function loginPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
-            <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm">
+        <div className="min-h-screen bg-gradient-to-br from-purple-950 via-black to-indigo-950">
+            <header className="border-b border-purple-500/30 bg-black/30 backdrop-blur-sm shadow-lg shadow-purple-500/10">
                 <div className="max-w-md mx-auto px-4 py-6">
                     <Link
                         href="/"
-                        className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                        className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
                     >
                         <ArrowLeft size={16} />
                         Back
@@ -94,8 +94,8 @@ export default function loginPage() {
 
             <div className="flex-1 flex items-center justify-center px-4 py-8">
                 <div className="w-full max-w-md">
-                    <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-                        <h1 className="text-2xl font-bold text-white mb-6">Sign In</h1>
+                    <div className="bg-black/40 rounded-lg border border-purple-500/40 p-6 backdrop-blur-md shadow-lg shadow-purple-500/20">
+                        <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent mb-6">Sign In</h1>
                         <form onSubmit={handleLogin} className="space-y-4">
                             <div>
                                 <input
@@ -110,10 +110,10 @@ export default function loginPage() {
                                         if (errors.email)
                                             setErrors({ ...errors, email: undefined });
                                     }}
-                                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                    className="w-full px-3 py-2 bg-black/50 border border-cyan-500/50 rounded text-cyan-300 placeholder-cyan-600 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
                                 />
                                 {errors.email && (
-                                    <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+                                    <p className="text-pink-400 text-sm mt-1">{errors.email}</p>
                                 )}
                             </div>
 
@@ -130,24 +130,24 @@ export default function loginPage() {
                                         if (errors.password)
                                             setErrors({ ...errors, password: undefined });
                                     }}
-                                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                                    className="w-full px-3 py-2 bg-black/50 border border-pink-500/50 rounded text-pink-300 placeholder-pink-600 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-500/30"
                                 />
                                 {errors.password && (
-                                    <p className="text-red-400 text-sm mt-1">{errors.password}</p>
+                                    <p className="text-pink-400 text-sm mt-1">{errors.password}</p>
                                 )}
-                            </div>
+                                </div>
 
-                            <button
+                                <button
                                 disabled={loading}
-                                className="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white rounded font-medium transition-colors"
-                            >
+                                className="w-full px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 text-white rounded font-medium transition-all shadow-lg shadow-cyan-500/50"
+                                >
                                 {loading ? "Signing in..." : "Sign In"}
-                            </button>
+                                </button>
                         </form>
 
-                        <p className="text-center mt-4 text-sm text-slate-400">
+                        <p className="text-center mt-4 text-sm text-purple-300">
                             Don&apos;t have an account?{" "}
-                            <Link href="/register" className="text-blue-400 hover:text-blue-300">
+                            <Link href="/register" className="text-cyan-400 hover:text-cyan-300 font-medium">
                                 Register
                             </Link>
                         </p>

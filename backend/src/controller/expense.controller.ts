@@ -3,7 +3,6 @@ import { AddExpenseDTO, ExpenseService, UpdateExpenseDTO } from "../services/exp
 import { CreateExpenseSchema, ExpenseIdParamSchema, ExpenseListQuerySchema, UpdateExpenseSchema } from "../schemas/expense.schema";
 import { any } from "zod";
 
-const expenseService = new ExpenseService()
 const STATUS_TYPE = ["CREDIT", "DEBIT"]
 
 // Helper to safely get userId from Auth middleware
@@ -13,55 +12,56 @@ const getUserId = (req: Request): string | null => {
 }
 
 export const createExpense = async (req: Request, res: Response) => {
-    try {
-        const userId = getUserId(req)
-        if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" })
-        }
+     try {
+         const userId = getUserId(req)
+         if (!userId) {
+             return res.status(401).json({ success: false, message: "Unauthorized" })
+         }
 
+        const expenseService = new ExpenseService((req as any).db);
         const body = CreateExpenseSchema.parse(req.body)
         
-        let status;
-        if (body.status && STATUS_TYPE.includes(body.status.toUpperCase())) {
-            status = body.status
-        } else {
-            return res.status(400).json({ message: "required" })
-        }
-
+        const status = body.status ? body.status.toUpperCase() : "DEBIT";
+        
         const data: AddExpenseDTO = {
              title: body.title,
+             category: body.category || "other",
              amount: body.amount || 0,
              userId: userId,
-             status: status
+             status: status as any
          }
 
          const expenseId = await expenseService.addExpense(data)
 
         return res.status(201).json({
+            success: true,
             message: "Expense added successfully",
-            expenseId
+            data: { expenseId }
         })
     } catch (error: any){
         if( error?.name === "ZodError") {
             return res.status(400).json ({
-                message: "Validation Error",
-                errors: error.errors
-            })
+                     success: false,
+                     message: "Validation Error",
+                     errors: error.errors
+                 })
         }
 
         return res.status(500).json({
+            success: false,
             message: "Internal server error"
         })
     }
 }
 
 export const getExpense = async (req: Request, res: Response) => {
-    try {
-        const userId = getUserId(req);
-        if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
+     try {
+          const userId = getUserId(req);
+         if (!userId) {
+             return res.status(401).json({ success: false, message: "Unauthorized" });
+         }
 
+        const expenseService = new ExpenseService((req as any).db);
         const query = ExpenseListQuerySchema.parse(req.query);
 
         const page = query.page ? Number(query.page) : 1;
@@ -75,12 +75,16 @@ export const getExpense = async (req: Request, res: Response) => {
         });
 
         return res.status(200).json({
-            expense: result.expenses,
-            total: result.total,
-            page: result.page,
-            limit: result.limit
+            success: true,
+            data: {
+                expense: result.expenses,
+                total: result.total,
+                page: result.page,
+                limit: result.limit
+            }
         });
     } catch (error: any) {
+        console.error("getExpense error:", error);
         if (error?.name === "ZodError") {
             return res.status(400).json({
                 message: "Validation error",
@@ -89,23 +93,26 @@ export const getExpense = async (req: Request, res: Response) => {
         }
 
         return res.status(500).json({
-            message: "Internal server error",
-        });
+             success: false,
+             message: "Internal server error",
+             error: error?.message || "Unknown error"
+         });
     }
 };
 
 export const getExpenseById = async (req: Request, res: Response) => {
-    try {
-        const userId = getUserId(req);
-        if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
+     try {
+         const userId = getUserId(req);
+         if (!userId) {
+             return res.status(401).json({ success: false, message: "Unauthorized" });
+         }
 
-        const params = ExpenseIdParamSchema.parse(req.params);
+         const expenseService = new ExpenseService((req as any).db);
+         const params = ExpenseIdParamSchema.parse(req.params);
 
-        const task = await expenseService.getExpenseById(params.id, userId);
+         const task = await expenseService.getExpenseById(params.id, userId);
 
-        return res.status(200).json(task);
+         return res.status(200).json({ success: true, data: task });
     } catch (error: any) {
         if (error?.name === "ZodError") {
             return res.status(400).json({
@@ -115,22 +122,24 @@ export const getExpenseById = async (req: Request, res: Response) => {
         }
 
         if (error?.message === "Expense not found") {
-            return res.status(404).json({ message: "Expense not found" });
+            return res.status(404).json({ success: false, message: "Expense not found" });
         }
 
         return res.status(500).json({
+            success: false,
             message: "Internal server error",
         });
-    }
-};
-
-export const updateExpense = async (req: Request, res: Response) => {
-    try {
-        const userId = getUserId(req);
-        if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
         }
+        };
 
+        export const updateExpense = async (req: Request, res: Response) => {
+             try {
+                 const userId = getUserId(req);
+                 if (!userId) {
+                     return res.status(401).json({ success: false, message: "Unauthorized" });
+                 }
+
+        const expenseService = new ExpenseService((req as any).db);
         const params = ExpenseIdParamSchema.parse(req.params);
         const body = UpdateExpenseSchema.parse(req.body);
 
@@ -138,6 +147,10 @@ export const updateExpense = async (req: Request, res: Response) => {
         
         if (body.title !== undefined) {
             updateData.title = body.title;
+        }
+        
+        if (body.category !== undefined) {
+            updateData.category = body.category;
         }
         
         if (body.amount !== undefined) {
@@ -151,8 +164,9 @@ export const updateExpense = async (req: Request, res: Response) => {
         const updatedExpense = await expenseService.updateExpense(params.id, userId, updateData);
 
         return res.status(200).json({
+            success: true,
             message: "Expense updated successfully",
-            task: updatedExpense,
+            data: updatedExpense,
         });
     } catch (error: any) {
         if (error?.name === "ZodError") {
@@ -163,27 +177,30 @@ export const updateExpense = async (req: Request, res: Response) => {
         }
 
         if (error?.message === "Expense not found") {
-            return res.status(404).json({ message: "Expense not found" });
+            return res.status(404).json({ success: false, message: "Expense not found" });
         }
 
         return res.status(500).json({
+            success: false,
             message: "Internal server error",
         });
-    }
-};
+        }
+        };
 
-export const deleteExpense = async (req: Request, res: Response) => {
-    try {
+        export const deleteExpense = async (req: Request, res: Response) => {
+        try {
         const userId = getUserId(req);
         if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" });
+            return res.status(401).json({ success: false, message: "Unauthorized" });
         }
 
+        const expenseService = new ExpenseService((req as any).db);
         const params = ExpenseIdParamSchema.parse(req.params);
 
         await expenseService.deleteExpense(params.id, userId);
 
         return res.status(200).json({
+            success: true,
             message: "Expense deleted successfully",
         });
     } catch (error: any) {
@@ -195,11 +212,12 @@ export const deleteExpense = async (req: Request, res: Response) => {
         }
 
         if (error?.message === "Expense not found") {
-            return res.status(404).json({ message: "Expense not found" });
+            return res.status(404).json({ success: false, message: "Expense not found" });
         }
 
         return res.status(500).json({
+            success: false,
             message: "Internal server error",
         });
-    }
-};
+        }
+        };

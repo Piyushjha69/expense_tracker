@@ -31,12 +31,13 @@ enum ExpenseStatus {
 }
 
 model Expense {
-   id        String        @id @default(uuid()) @db.Uuid
-   title     String    
-   amount    Float         @default(0)
-   status    ExpenseStatus
-   userId    String        @db.Uuid
-   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-   createdAt DateTime     @default(now())
-   updatedAt DateTime     @updatedAt
+    id        String        @id @default(uuid()) @db.Uuid
+    title     String    
+    category  String        @default("other")
+    amount    Float         @default(0)
+    status    ExpenseStatus
+    userId    String        @db.Uuid
+    user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @updatedAt
 }

@@ -613,6 +613,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const ExpenseScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  category: 'category',
   amount: 'amount',
   status: 'status',
   userId: 'userId',

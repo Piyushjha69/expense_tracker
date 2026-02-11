@@ -6,16 +6,30 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-100;
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    background: linear-gradient(-45deg, #1a0033 0%, #2d0052 25%, #1a1a4d 50%, #0d3d66 75%, #1a0033 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #e0f7ff;
     position: relative;
     overflow-x: hidden;
   }
 
-  /* Animated background elements */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Animated background elements - neon tones */
   body::before {
     content: "";
     position: fixed;
@@ -23,9 +37,9 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
-    opacity: 0.3;
+    opacity: 0.4;
     pointer-events: none;
     animation: drift 20s linear infinite;
     z-index: -1;
@@ -44,21 +58,31 @@
 @layer components {
   /* Smooth transitions */
   * {
-    @apply transition-colors duration-200;
+    @apply transition-all duration-300;
   }
 
-  /* Glass effect */
+  /* Glass effect - neon purple/cyan borders with glow */
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-black/30 backdrop-blur-md border border-purple-500/40 shadow-lg shadow-purple-500/30;
   }
 
-  /* Gradient text */
+  /* Gradient text - cyan → purple → pink */
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-600 bg-clip-text text-transparent;
   }
 
-  /* Smooth shadows */
+  /* Smooth shadows - neon glow */
   .shadow-glow {
-    @apply shadow-lg shadow-blue-500/10;
+    @apply shadow-lg shadow-purple-500/40;
+  }
+
+  /* Neon button base */
+  .btn-neon {
+    @apply transition-all duration-300 font-medium;
+  }
+
+  /* Neon focus ring */
+  .input-neon {
+    @apply bg-black/50 border rounded focus:outline-none transition-all duration-300;
   }
 }

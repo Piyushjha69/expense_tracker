@@ -37,6 +37,7 @@ export type ExpenseSumAggregateOutputType = {
 export type ExpenseMinAggregateOutputType = {
   id: string | null
   title: string | null
+  category: string | null
   amount: number | null
   status: $Enums.ExpenseStatus | null
   userId: string | null
@@ -47,6 +48,7 @@ export type ExpenseMinAggregateOutputType = {
 export type ExpenseMaxAggregateOutputType = {
   id: string | null
   title: string | null
+  category: string | null
   amount: number | null
   status: $Enums.ExpenseStatus | null
   userId: string | null
@@ -57,6 +59,7 @@ export type ExpenseMaxAggregateOutputType = {
 export type ExpenseCountAggregateOutputType = {
   id: number
   title: number
+  category: number
   amount: number
   status: number
   userId: number
@@ -77,6 +80,7 @@ export type ExpenseSumAggregateInputType = {
 export type ExpenseMinAggregateInputType = {
   id?: true
   title?: true
+  category?: true
   amount?: true
   status?: true
   userId?: true
@@ -87,6 +91,7 @@ export type ExpenseMinAggregateInputType = {
 export type ExpenseMaxAggregateInputType = {
   id?: true
   title?: true
+  category?: true
   amount?: true
   status?: true
   userId?: true
@@ -97,6 +102,7 @@ export type ExpenseMaxAggregateInputType = {
 export type ExpenseCountAggregateInputType = {
   id?: true
   title?: true
+  category?: true
   amount?: true
   status?: true
   userId?: true
@@ -194,6 +200,7 @@ export type ExpenseGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ExpenseGroupByOutputType = {
   id: string
   title: string
+  category: string
   amount: number
   status: $Enums.ExpenseStatus
   userId: string
@@ -227,6 +234,7 @@ export type ExpenseWhereInput = {
   NOT?: Prisma.ExpenseWhereInput | Prisma.ExpenseWhereInput[]
   id?: Prisma.UuidFilter<"Expense"> | string
   title?: Prisma.StringFilter<"Expense"> | string
+  category?: Prisma.StringFilter<"Expense"> | string
   amount?: Prisma.FloatFilter<"Expense"> | number
   status?: Prisma.EnumExpenseStatusFilter<"Expense"> | $Enums.ExpenseStatus
   userId?: Prisma.UuidFilter<"Expense"> | string
@@ -238,6 +246,7 @@ export type ExpenseWhereInput = {
 export type ExpenseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -252,6 +261,7 @@ export type ExpenseWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ExpenseWhereInput[]
   NOT?: Prisma.ExpenseWhereInput | Prisma.ExpenseWhereInput[]
   title?: Prisma.StringFilter<"Expense"> | string
+  category?: Prisma.StringFilter<"Expense"> | string
   amount?: Prisma.FloatFilter<"Expense"> | number
   status?: Prisma.EnumExpenseStatusFilter<"Expense"> | $Enums.ExpenseStatus
   userId?: Prisma.UuidFilter<"Expense"> | string
@@ -263,6 +273,7 @@ export type ExpenseWhereUniqueInput = Prisma.AtLeast<{
 export type ExpenseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -281,6 +292,7 @@ export type ExpenseScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ExpenseScalarWhereWithAggregatesInput | Prisma.ExpenseScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Expense"> | string
   title?: Prisma.StringWithAggregatesFilter<"Expense"> | string
+  category?: Prisma.StringWithAggregatesFilter<"Expense"> | string
   amount?: Prisma.FloatWithAggregatesFilter<"Expense"> | number
   status?: Prisma.EnumExpenseStatusWithAggregatesFilter<"Expense"> | $Enums.ExpenseStatus
   userId?: Prisma.UuidWithAggregatesFilter<"Expense"> | string
@@ -291,6 +303,7 @@ export type ExpenseScalarWhereWithAggregatesInput = {
 export type ExpenseCreateInput = {
   id?: string
   title: string
+  category?: string
   amount?: number
   status: $Enums.ExpenseStatus
   createdAt?: Date | string
@@ -301,6 +314,7 @@ export type ExpenseCreateInput = {
 export type ExpenseUncheckedCreateInput = {
   id?: string
   title: string
+  category?: string
   amount?: number
   status: $Enums.ExpenseStatus
   userId: string
@@ -311,6 +325,7 @@ export type ExpenseUncheckedCreateInput = {
 export type ExpenseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -321,6 +336,7 @@ export type ExpenseUpdateInput = {
 export type ExpenseUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -331,6 +347,7 @@ export type ExpenseUncheckedUpdateInput = {
 export type ExpenseCreateManyInput = {
   id?: string
   title: string
+  category?: string
   amount?: number
   status: $Enums.ExpenseStatus
   userId: string
@@ -341,6 +358,7 @@ export type ExpenseCreateManyInput = {
 export type ExpenseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -350,6 +368,7 @@ export type ExpenseUpdateManyMutationInput = {
 export type ExpenseUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -370,6 +389,7 @@ export type ExpenseOrderByRelationAggregateInput = {
 export type ExpenseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -384,6 +404,7 @@ export type ExpenseAvgOrderByAggregateInput = {
 export type ExpenseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -394,6 +415,7 @@ export type ExpenseMaxOrderByAggregateInput = {
 export type ExpenseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -462,6 +484,7 @@ export type EnumExpenseStatusFieldUpdateOperationsInput = {
 export type ExpenseCreateWithoutUserInput = {
   id?: string
   title: string
+  category?: string
   amount?: number
   status: $Enums.ExpenseStatus
   createdAt?: Date | string
@@ -471,6 +494,7 @@ export type ExpenseCreateWithoutUserInput = {
 export type ExpenseUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
+  category?: string
   amount?: number
   status: $Enums.ExpenseStatus
   createdAt?: Date | string
@@ -509,6 +533,7 @@ export type ExpenseScalarWhereInput = {
   NOT?: Prisma.ExpenseScalarWhereInput | Prisma.ExpenseScalarWhereInput[]
   id?: Prisma.UuidFilter<"Expense"> | string
   title?: Prisma.StringFilter<"Expense"> | string
+  category?: Prisma.StringFilter<"Expense"> | string
   amount?: Prisma.FloatFilter<"Expense"> | number
   status?: Prisma.EnumExpenseStatusFilter<"Expense"> | $Enums.ExpenseStatus
   userId?: Prisma.UuidFilter<"Expense"> | string
@@ -519,6 +544,7 @@ export type ExpenseScalarWhereInput = {
 export type ExpenseCreateManyUserInput = {
   id?: string
   title: string
+  category?: string
   amount?: number
   status: $Enums.ExpenseStatus
   createdAt?: Date | string
@@ -528,6 +554,7 @@ export type ExpenseCreateManyUserInput = {
 export type ExpenseUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -537,6 +564,7 @@ export type ExpenseUpdateWithoutUserInput = {
 export type ExpenseUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -546,6 +574,7 @@ export type ExpenseUncheckedUpdateWithoutUserInput = {
 export type ExpenseUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -557,6 +586,7 @@ export type ExpenseUncheckedUpdateManyWithoutUserInput = {
 export type ExpenseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  category?: boolean
   amount?: boolean
   status?: boolean
   userId?: boolean
@@ -568,6 +598,7 @@ export type ExpenseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  category?: boolean
   amount?: boolean
   status?: boolean
   userId?: boolean
@@ -579,6 +610,7 @@ export type ExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  category?: boolean
   amount?: boolean
   status?: boolean
   userId?: boolean
@@ -590,6 +622,7 @@ export type ExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ExpenseSelectScalar = {
   id?: boolean
   title?: boolean
+  category?: boolean
   amount?: boolean
   status?: boolean
   userId?: boolean
@@ -597,7 +630,7 @@ export type ExpenseSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "amount" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
+export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "category" | "amount" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
 export type ExpenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -616,6 +649,7 @@ export type $ExpensePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
+    category: string
     amount: number
     status: $Enums.ExpenseStatus
     userId: string
@@ -1047,6 +1081,7 @@ export interface Prisma__ExpenseClient<T, Null = never, ExtArgs extends runtime.
 export interface ExpenseFieldRefs {
   readonly id: Prisma.FieldRef<"Expense", 'String'>
   readonly title: Prisma.FieldRef<"Expense", 'String'>
+  readonly category: Prisma.FieldRef<"Expense", 'String'>
   readonly amount: Prisma.FieldRef<"Expense", 'Float'>
   readonly status: Prisma.FieldRef<"Expense", 'ExpenseStatus'>
   readonly userId: Prisma.FieldRef<"Expense", 'String'>
