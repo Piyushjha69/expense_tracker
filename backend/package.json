@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "prisma generate",
-    "build": "tsc",
+    "build": "tsc && npm run copy-generated",
+    "copy-generated": "node -e \"require('fs').cpSync('src/generated', 'dist/generated', {recursive: true})\"",
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
     "migrate": "prisma migrate deploy"
