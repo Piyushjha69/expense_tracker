@@ -1,4 +1,5 @@
-import { ExpenseStatus, PrismaClient } from "../generated";
+import { PrismaClient } from "@prisma/client";
+import { ExpenseStatus } from "../generated/enums";
 
 export interface AddExpenseDTO {
      title: string
