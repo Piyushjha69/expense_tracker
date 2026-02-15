@@ -2,14 +2,13 @@
   "name": "expensetracker",
   "version": "1.0.0",
   "description": "help track your expenses",
-  "main": "server.ts",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "prisma generate",
-    "build": "tsc && npm run copy-generated",
-    "copy-generated": "node -e \"const fs = require('fs'); fs.mkdirSync('dist', {recursive: true}); fs.cpSync('src/generated', 'dist/generated', {recursive: true, force: true})\"",
+    "build": "node build.js && tsc",
     "dev": "tsx watch src/server.ts",
-    "start": "node dist/server.js",
+    "start": "tsx dist/server.js",
     "migrate": "prisma migrate deploy"
   },
   "author": "",
